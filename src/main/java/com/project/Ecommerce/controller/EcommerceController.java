@@ -1,15 +1,18 @@
 package com.project.Ecommerce.controller;
 
 import com.project.Ecommerce.exceptions.InvalidCredential;
+import com.project.Ecommerce.exceptions.UserNotFoundException;
 import com.project.Ecommerce.model.User;
 import com.project.Ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.mail.MessagingException;
 
 
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -33,6 +36,21 @@ public class EcommerceController {
             throw new RuntimeException(e);
 
         }
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody User user){
+        try {
+            User userLogin = userService.login(user.getEmail(), user.getPassword());
+            return ResponseEntity.ok(userLogin);
+        } catch (UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
+    }
+
+    @GetMapping("/user/{userId}")
+    public Optional<User> getUserById(@PathVariable long userId){
+        return userService.getUserById(userId);
+
     }
 
 }

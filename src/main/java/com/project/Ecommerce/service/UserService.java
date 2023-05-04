@@ -1,14 +1,17 @@
 package com.project.Ecommerce.service;
 
 import com.project.Ecommerce.exceptions.InvalidCredential;
+import com.project.Ecommerce.exceptions.UserNotFoundException;
 import com.project.Ecommerce.model.User;
 import jakarta.mail.MessagingException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 import java.util.Random;
 import com.project.Ecommerce.dao.Userdao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 @Service
 
@@ -54,4 +57,21 @@ public class UserService {
 
         return userdao.save(user);
     }
+
+    public User login(String email, String password){
+        User user = userdao.findByEmailAndPassword(email, password);
+        if(user == null) {
+            throw new UserNotFoundException("User with email " + email + " not found!");
+        }
+        user.setEmail(email);
+        user.setPassword(password);
+
+        return user;
+    }
+
+    public Optional<User> getUserById(long employeeId) {
+
+        return userdao.findById(employeeId);
+    }
+
 }
