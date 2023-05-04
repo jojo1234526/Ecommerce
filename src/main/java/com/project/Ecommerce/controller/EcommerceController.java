@@ -2,6 +2,7 @@ package com.project.Ecommerce.controller;
 
 import com.project.Ecommerce.exceptions.InvalidCredential;
 import com.project.Ecommerce.exceptions.UserNotFoundException;
+import com.project.Ecommerce.exceptions.UserServiceException;
 import com.project.Ecommerce.model.User;
 import com.project.Ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,17 @@ public class EcommerceController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
+
+    @PostMapping("/CheckUserCreation")
+    public ResponseEntity<?> checkUserCreation(@RequestBody User user) {
+        try {
+            User userCheck = userService.checkCreatedUser(user);
+            return ResponseEntity.ok(userCheck + "User is not here!");
+        } catch (UserServiceException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User is here!");
+        }
+    }
+
 
     @GetMapping("/user/{userId}")
     public Optional<User> getUserById(@PathVariable long userId){

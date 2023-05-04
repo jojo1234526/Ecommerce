@@ -1,7 +1,9 @@
 package com.project.Ecommerce.service;
 
+import com.project.Ecommerce.exceptions.AppConstants;
 import com.project.Ecommerce.exceptions.InvalidCredential;
 import com.project.Ecommerce.exceptions.UserNotFoundException;
+import com.project.Ecommerce.exceptions.UserServiceException;
 import com.project.Ecommerce.model.User;
 import jakarta.mail.MessagingException;
 
@@ -20,7 +22,7 @@ public class UserService {
     private Userdao userdao;
 
     @Autowired
-    public UserService(Userdao userdao){
+    public UserService(Userdao userdao) {
         this.userdao = userdao;
     }
 
@@ -58,9 +60,9 @@ public class UserService {
         return userdao.save(user);
     }
 
-    public User login(String email, String password){
+    public User login(String email, String password) {
         User user = userdao.findByEmailAndPassword(email, password);
-        if(user == null) {
+        if (user == null) {
             throw new UserNotFoundException("User with email " + email + " not found!");
         }
         user.setEmail(email);
@@ -72,6 +74,12 @@ public class UserService {
     public Optional<User> getUserById(long employeeId) {
 
         return userdao.findById(employeeId);
+    }
+
+    public User checkCreatedUser(User user) throws UserServiceException {
+        if (userdao.findByEmail(user.getEmail()) != null)
+            throw new UserServiceException(AppConstants.USER_ALREADY_EXISTS);
+        return userdao.save(user);
     }
 
 }
