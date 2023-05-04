@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -37,4 +38,18 @@ public class User implements Serializable {
     private String phoneNumber;
 
     private static final long serialVersionUID = 1L;
+
+    @OneToMany(mappedBy = "user")
+    private List<CartItem> cartItems = new ArrayList<>();
+
+
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
 }
