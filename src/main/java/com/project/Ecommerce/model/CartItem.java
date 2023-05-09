@@ -1,5 +1,7 @@
 package com.project.Ecommerce.model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,6 +25,8 @@ public class CartItem {
 
     public CartItem() {
     }
+
+
 
     public CartItem(String productName, int quantity, double price, User user) {
         this.productName = productName;
@@ -70,4 +74,5 @@ public class CartItem {
     public void setUser(User user) {
         this.user = user;
     }
+
 }

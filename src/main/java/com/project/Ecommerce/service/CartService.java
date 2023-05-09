@@ -8,6 +8,7 @@ import com.project.Ecommerce.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -30,4 +31,16 @@ public class CartService {
             throw new RuntimeException("User not found!");
         }
     }
+
+    public List<CartItem> getCartItems(Long userId) {
+        Optional<User> userOptional = userdao.findById(userId);
+
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            return cartItemdao.findByUser(user);
+        } else {
+            throw new RuntimeException("User not found!");
+        }
+    }
+
 }

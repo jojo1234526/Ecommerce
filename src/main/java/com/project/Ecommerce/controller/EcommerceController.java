@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Optional;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin(origins = "*")
 @RequestMapping("/Ecommerce")
 public class EcommerceController {
     UserService userService;
