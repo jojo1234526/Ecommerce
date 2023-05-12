@@ -65,4 +65,16 @@ public class EcommerceController {
 
     }
 
+    // Inside EcommerceController
+    @PostMapping("/checkout")
+    public ResponseEntity<String> checkoutUser(@RequestBody User user) {
+        try {
+            userService.checkoutUser(user);
+            return ResponseEntity.ok("Checkout successful!");
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 }

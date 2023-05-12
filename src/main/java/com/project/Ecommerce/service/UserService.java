@@ -82,4 +82,14 @@ public class UserService {
         return userdao.save(user);
     }
 
+    // Inside UserService
+    public void checkoutUser(User user) {
+        // Clear the user's cart after checkout
+        user.getCartItems().clear();
+        userdao.save(user);
+    }
+
+
+
+
 }
