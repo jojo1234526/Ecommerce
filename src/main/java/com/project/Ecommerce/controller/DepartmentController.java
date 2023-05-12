@@ -15,6 +15,7 @@ public class DepartmentController {
 
     @Autowired
     private DepartmentService departmentService;
+    @CrossOrigin(origins = "*")
 
     @GetMapping("/departments")
     public List<Department> getAllDepartments() {

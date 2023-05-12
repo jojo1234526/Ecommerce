@@ -24,6 +24,8 @@ public class EcommerceController {
     public EcommerceController(UserService userService) {
         this.userService = userService;
     }
+    @CrossOrigin(origins = "*")
+
     @PostMapping("/register")
     public ResponseEntity<String> postUser(@RequestBody User user){
         try {
@@ -38,6 +40,9 @@ public class EcommerceController {
 
         }
     }
+
+    @CrossOrigin(origins = "*")
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody User user){
         try {
@@ -47,6 +52,8 @@ public class EcommerceController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
         }
     }
+
+    @CrossOrigin(origins = "*")
 
     @PostMapping("/CheckUserCreation")
     public ResponseEntity<?> checkUserCreation(@RequestBody User user) {
@@ -59,11 +66,15 @@ public class EcommerceController {
     }
 
 
+    @CrossOrigin(origins = "*")
+
     @GetMapping("/user/{userId}")
     public Optional<User> getUserById(@PathVariable long userId){
         return userService.getUserById(userId);
 
     }
+
+    @CrossOrigin(origins = "*")
 
     // Inside EcommerceController
     @PostMapping("/checkout")

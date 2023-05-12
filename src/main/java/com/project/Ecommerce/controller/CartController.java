@@ -15,6 +15,7 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
+    @CrossOrigin(origins = "*")
 
     @PostMapping("/{userId}/cart-items")
     public ResponseEntity<CartItem> addCartItem(@PathVariable("userId") Long userId, @RequestBody CartItem cartItem) {
@@ -25,6 +26,7 @@ public class CartController {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
+    @CrossOrigin(origins = "*")
 
     @GetMapping("/{userId}/cart-items")
     public List<CartItem> getCartItems(@PathVariable Long userId) {
