@@ -14,6 +14,7 @@ import jakarta.mail.MessagingException;
 
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -29,19 +30,23 @@ public class EcommerceController {
     @CrossOrigin(origins = "*")
 
     @PostMapping("/register")
-    public ResponseEntity<String> postUser(@RequestBody User user){
+    public ResponseEntity<Map<String, String>> postUser(@RequestBody User user){
         try {
             userService.createUser(user);
-            return ResponseEntity.ok("You have registered successfully!");
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "You have registered successfully!");
+            return ResponseEntity.ok(response);
         }catch(InvalidCredential e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            Map<String, String> response = new HashMap<>();
+            response.put("error", e.getMessage());
+            return ResponseEntity.badRequest().body(response);
         }catch(MessagingException e) {
             throw new RuntimeException(e);
         }catch(UnsupportedEncodingException e){
             throw new RuntimeException(e);
-
         }
     }
+
 
     @CrossOrigin(origins = "*")
 
