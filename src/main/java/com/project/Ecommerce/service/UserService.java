@@ -48,9 +48,6 @@ public class UserService {
 
         //create random number for password
 
-        Random random = new Random();
-        String randomCode = String.valueOf(random.nextInt(9999999));
-        user.setPassword(randomCode);
 
 
         //Send verification email
