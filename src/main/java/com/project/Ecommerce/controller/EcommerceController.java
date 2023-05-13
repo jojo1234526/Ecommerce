@@ -13,6 +13,8 @@ import jakarta.mail.MessagingException;
 
 
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -77,15 +79,36 @@ public class EcommerceController {
     @CrossOrigin(origins = "*")
 
     // Inside EcommerceController
+
+
     @PostMapping("/checkout")
-    public ResponseEntity<String> checkoutUser(@RequestBody User user) {
+    public ResponseEntity<?> checkoutUser(@RequestBody User user) {
         try {
             userService.checkoutUser(user);
-            return ResponseEntity.ok("Checkout successful!");
+            return ResponseEntity.ok(Map.of("message", "Checkout successful!"));
         } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
     }
+
+    @CrossOrigin(origins = "*")
+    @GetMapping("/currentUser")
+    public ResponseEntity<User> getCurrentUser(Principal principal) {
+        if (principal == null) {
+            // Return an appropriate error response if there's no logged-in user
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+        User user = userService.findByEmail(principal.getName());
+        if (user == null) {
+            // Return an appropriate error response if the user is not found
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return ResponseEntity.ok(user);
+    }
+
+
+
+
 
 
 }

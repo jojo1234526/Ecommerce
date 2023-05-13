@@ -8,6 +8,7 @@ import com.project.Ecommerce.model.User;
 import jakarta.mail.MessagingException;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Optional;
 import java.util.Random;
 import com.project.Ecommerce.dao.Userdao;
@@ -89,6 +90,18 @@ public class UserService {
         userdao.save(user);
     }
 
+    public User loadUserByUsername(String email) throws UserServiceException {
+        User user = userdao.findByEmail(email);
+        if (user == null) {
+            throw new UserServiceException("Could not find user with email: " + email);
+        }
+
+        return user;
+    }
+
+    public User findByEmail(String email) {
+        return userdao.findByEmail(email);
+    }
 
 
 
